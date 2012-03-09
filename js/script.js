@@ -39,18 +39,17 @@ $(function() {
   var locales = [];
 
   function render() {
-    console.log(locales);
     for (var locale in locales) {
-      console.log("buglist for locale " + locale + " is: " + locales[locale].bugs);
       var ids = [];
+      var cats = [];
       for (var i = 0; i < locales[locale].bugs.length; i++) {
-        console.log(locales[locale].bugs[i].id);
         ids.push(locales[locale].bugs[i].id);
+        cats = cats.concat(locales[locale].bugs[i].categories);
       }
-        $('table').append(
-          '<tr class="' + locale + '"><td>' + 
-          '<a href="https://bugzilla.mozilla.org/buglist.cgi?bug_id=' + ids.join(',') + '">' + locale + '</a>' + 
-          '</td></tr>');
+      $('table').append(
+        '<tr class="' + locale + '"><td>' + 
+        '<a href="https://bugzilla.mozilla.org/buglist.cgi?bug_id=' + ids.join(',') + '">' + locale + '</a>' + 
+        '</td></tr>');
     }
   }
 
@@ -102,7 +101,7 @@ $(function() {
   function add(bug) {
     var meta = parse(bug.summary);
     if (meta.categories.length === 0) {
-      meta.categories.push("other");
+      meta.categories.push("none");
     }
 
     if (!locales[meta.locale]) {
@@ -124,6 +123,15 @@ $(function() {
     }
   }
   
+  Array.prototype.toLowerCase= function(){
+    var L= this.length, tem;
+    while(L) {
+      tem= this[--L] || '';
+      if(tem.toLowerCase) this[L]= tem.toLowerCase();   
+    }
+      return this;
+  }
+
   $.ajax({ 
 
     /*  Define a URL for API

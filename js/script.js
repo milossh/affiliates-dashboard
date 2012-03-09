@@ -46,10 +46,12 @@ $(function() {
         ids.push(locales[locale].bugs[i].id);
         cats = cats.concat(locales[locale].bugs[i].categories);
       }
+      cats = cats.join("`").toLowerCase().split("`");
       $('table').append(
-        '<tr class="' + locale + '"><td>' + 
-        '<a href="https://bugzilla.mozilla.org/buglist.cgi?bug_id=' + ids.join(',') + '">' + locale + '</a>' + 
-        '</td></tr>');
+        '<tr class="' + locale + '">' + 
+        '<td><a href="https://bugzilla.mozilla.org/buglist.cgi?bug_id=' + ids.join(',') + '">' + locale + '</a></td>' +
+        '<td>' + cats.join(', ') + '</td>' +
+        '</tr>');
     }
   }
 
@@ -121,15 +123,6 @@ $(function() {
                                           categories: meta.categories 
                                         });
     }
-  }
-  
-  Array.prototype.toLowerCase= function(){
-    var L= this.length, tem;
-    while(L) {
-      tem= this[--L] || '';
-      if(tem.toLowerCase) this[L]= tem.toLowerCase();   
-    }
-      return this;
   }
 
   $.ajax({ 

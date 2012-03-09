@@ -37,22 +37,61 @@
 $(function() {
 
   var locales = [];
+  var knownCategories = ['desktop', 'mobile', 'plugin', 'aurora', 'xp', 'recruit', 'thunderbird'];
 
+  tableOutput = '<table><tr class="heading"><td></td>';
+  for(i = 0; i <= knownCategories.length - 1; i++) {
+    tableOutput += '<td>' + knownCategories[i] + '</td>';
+  }
+  tableOutput += '</tr>';
   function render() {
     for (var locale in locales) {
       var ids = [];
       var cats = [];
+      var doneCats = {bugid:'', list:[]}; /* banner categories we have resolved bugs for */
+      var openCats = {bugid:'', list:[]}; /* banner categories we have openeed bugs for */
+      tableOutput += '<tr class="' + locale + '">' + 
+        '<td><a href="https://bugzilla.mozilla.org/buglist.cgi?bug_id=' + 
+        ids.join(',') + '">' + locale + '</a></td>'; 
       for (var i = 0; i < locales[locale].bugs.length; i++) {
+        console.log(locales[locale].bugs[i].id);
         ids.push(locales[locale].bugs[i].id);
+        /*
         cats = cats.concat(locales[locale].bugs[i].categories);
+        cats = cats.join("`").toLowerCase().split("`"); */
+
+        if (locales[locale].bugs[i].status == 'NEW' ||
+            locales[locale].bugs[i].status == 'ASSIGNED') {
+          console.log("open: " + locales[locale].bugs[i].categories);
+          openCats.list = openCats.list.concat(locales[locale].bugs[i].categories);
+          openCats = {  list: openCats.list.join("`").toLowerCase().split("`"),
+                        bugid: locales[locale].bugs[i].id
+                      };
+        } else {
+          console.log("done: " + locales[locale].bugs[i].categories);
+          doneCats.list = doneCats.list.concat(locales[locale].bugs[i].categories);
+          doneCats = {  list: doneCats.list.join("`").toLowerCase().split("`"),
+                        bugid: locales[locale].bugs[i].id
+                      };
+        }  
       }
-      cats = cats.join("`").toLowerCase().split("`");
-      $('table').append(
-        '<tr class="' + locale + '">' + 
-        '<td><a href="https://bugzilla.mozilla.org/buglist.cgi?bug_id=' + ids.join(',') + '">' + locale + '</a></td>' +
-        '<td>' + cats.join(', ') + '</td>' +
-        '</tr>');
+      for(j = 0; j <= knownCategories.length - 1; j++) {
+        /*console.log($.inArray(knownCategories[i], cats)); */
+        if ($.inArray(knownCategories[j], openCats.list) != -1) {
+          tableOutput += '<td class="open"><a href="http://bugzilla.mozilla.org/show_bug.cgi?id=' + 
+          openCats.bugid + '">' + openCats.bugid +'</td>';
+        } else if($.inArray(knownCategories[j], doneCats.list) != -1) {
+          tableOutput += '<td class="done"><a href="http://bugzilla.mozilla.org/show_bug.cgi?id=' + 
+          doneCats.bugid + '">' + doneCats.bugid +'</td>';
+        } else {
+          tableOutput += '<td class="no"><a href="https://bugzilla.mozilla.org/enter_bug.cgi?product=Websites&component=affiliates.mozilla.org%20banners">file a bug</a></td>';
+        }
+      }
+      tableOutput += '</tr>';
+      console.log("locale: " + locale + "; open: " + openCats.list + "; closed: " + doneCats.list);
     }
+    tableOutput += '</table>';
+    $('.main-content').append(tableOutput);
   }
 
   /* Parses locales and categories from bug summary:
@@ -112,15 +151,17 @@ $(function() {
 
     if (!locales[meta.locale].bugs) {
       locales[meta.locale].bugs = [];
-      locales[meta.locale].bugs.push({ id: bug.id,
-                                          summary: meta.summary,
-                                          categories: meta.categories 
+      locales[meta.locale].bugs.push({ id:  bug.id,
+                                            summary: meta.summary,
+                                            categories: meta.categories,
+                                            status: bug.status
                                         });
-      console.log("just added to locale " + meta.locale + " a bug number " + bug.id);
+      /* console.log("just added to locale " + meta.locale + " a bug number " + bug.id); */
     } else {
-      locales[meta.locale].bugs.push({ id: bug.id,
-                                          summary: meta.summary,
-                                          categories: meta.categories 
+      locales[meta.locale].bugs.push({ id:  bug.id,
+                                            summary: meta.summary,
+                                            categories: meta.categories,
+                                            status: bug.status
                                         });
     }
   }

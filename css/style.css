@@ -71,10 +71,33 @@ td { vertical-align: top; }
 
 
 /* ===== Primary Styles ========================================================
-   Author:
+   Author: Milos Dinic
    ========================================================================== */
 
+table {
+  border: 1px solid black;
+}
+table td {
+  border: 1px solid black;
+}
 
+td.done {
+  background-color: green;
+}
+
+td.open {
+  background-color: orange;
+}
+
+td.no {
+  background-color: red;
+}
+
+.heading {
+  border: 2px solid black;
+  font-weight: bold;
+  text-transform: uppercase;
+}
 
 
 

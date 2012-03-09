@@ -35,9 +35,9 @@
  * ***** END LICENSE BLOCK ***** */
 
 $(function() {
-
+ 
   var locales = [];
-  var knownCategories = ['desktop', 'mobile', 'plugin', 'aurora', 'xp', 'recruit', 'thunderbird'];
+  var knownCategories = ['mobile', 'desktop', 'snippets', 'aurora', 'beta', 'XP', '3.6', 'plugin', 'thunderbird'];
 
   tableOutput = '<table><tr class="heading"><td></td>';
   for(i = 0; i <= knownCategories.length - 1; i++) {

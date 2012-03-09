@@ -34,19 +34,23 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-
 $(function() {
 
-  var locales = {};
+  var locales = [];
 
   function render() {
+    console.log(locales);
     for (var locale in locales) {
+      console.log("buglist for locale " + locale + " is: " + locales[locale].bugs);
       var ids = [];
-      ids.push(locales.buglist[0]);
-      $('table').append(
-        '<tr class="' + locale + '"><td>' + 
-        '<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=' + ids.join(', ') + '">' + locale + '</a>' + 
-        '</td></tr>');
+      for (var i = 0; i < locales[locale].bugs.length; i++) {
+        console.log(locales[locale].bugs[i].id);
+        ids.push(locales[locale].bugs[i].id);
+      }
+        $('table').append(
+          '<tr class="' + locale + '"><td>' + 
+          '<a href="https://bugzilla.mozilla.org/buglist.cgi?bug_id=' + ids.join(',') + '">' + locale + '</a>' + 
+          '</td></tr>');
     }
   }
 
@@ -86,7 +90,7 @@ $(function() {
           params.push(tempParams.join(""));
       }
     });
-    meta.locale = params[0];
+    meta.locale = params[0].toLowerCase();
     meta.categories = params.slice(1);
     /* testing
     console.log("params:" + params);
@@ -102,22 +106,22 @@ $(function() {
     }
 
     if (!locales[meta.locale]) {
-      locales[meta.locale] = [meta.locale];
-    } else {
-      locales[meta.locale].push(meta.locale);
+      locales[meta.locale] = {name: meta.locale};
     }
 
-    if (!locales[meta.locale][bug.id]) {
-      locales[meta.locale].buglist = [];
-      locales[meta.locale].buglist.push(bug.id);
+    if (!locales[meta.locale].bugs) {
+      locales[meta.locale].bugs = [];
+      locales[meta.locale].bugs.push({ id: bug.id,
+                                          summary: meta.summary,
+                                          categories: meta.categories 
+                                        });
       console.log("just added to locale " + meta.locale + " a bug number " + bug.id);
-      locales[meta.locale][bug.id] = bug.id;
     } else {
-      locales[meta.locale][bug.id].push(bug.id);
+      locales[meta.locale].bugs.push({ id: bug.id,
+                                          summary: meta.summary,
+                                          categories: meta.categories 
+                                        });
     }
-
-    locales[meta.locale][bug.id].summary = meta.summary;
-    locales[meta.locale][bug.id].categories = meta.categories;
   }
   
   $.ajax({ 

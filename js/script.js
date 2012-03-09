@@ -50,7 +50,7 @@ $(function() {
       var cats = [];
       var doneCats = {bugid:'', list:[]}; /* banner categories we have resolved bugs for */
       var openCats = {bugid:'', list:[]}; /* banner categories we have openeed bugs for */
-      tableOutput += '<tr class="' + locale + '">' + 
+      tableOutput += '<tr class="locale">' + 
         '<td><a href="https://bugzilla.mozilla.org/buglist.cgi?bug_id=' + 
         ids.join(',') + '">' + locale + '</a></td>'; 
       for (var i = 0; i < locales[locale].bugs.length; i++) {

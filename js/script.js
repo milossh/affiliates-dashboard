@@ -49,10 +49,7 @@ $(function() {
       var ids = [];
       var cats = [];
       var doneCats = {bugid:'', list:[]}; /* banner categories we have resolved bugs for */
-      var openCats = {bugid:'', list:[]}; /* banner categories we have openeed bugs for */
-      tableOutput += '<tr class="locale">' + 
-        '<td><a href="https://bugzilla.mozilla.org/buglist.cgi?bug_id=' + 
-        ids.join(',') + '">' + locale + '</a></td>'; 
+      var openCats = {bugid:'', list:[]}; /* banner categories we have openeed bugs for */ 
       for (var i = 0; i < locales[locale].bugs.length; i++) {
         console.log(locales[locale].bugs[i].id);
         ids.push(locales[locale].bugs[i].id);
@@ -75,6 +72,9 @@ $(function() {
                       };
         }  
       }
+      tableOutput += '<tr class="locale">' + 
+        '<td><a href="https://bugzilla.mozilla.org/buglist.cgi?bug_id=' + 
+        ids.join(',') + '">' + locale + '</a></td>';
       for(j = 0; j <= knownCategories.length - 1; j++) {
         /*console.log($.inArray(knownCategories[i], cats)); */
         if ($.inArray(knownCategories[j], openCats.list) != -1) {

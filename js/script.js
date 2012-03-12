@@ -84,7 +84,7 @@ $(function() {
           tableOutput += '<td class="done"><a href="http://bugzilla.mozilla.org/show_bug.cgi?id=' + 
           doneCats.bugid + '">' + doneCats.bugid +'</td>';
         } else {
-          tableOutput += '<td class="no"><a href="https://bugzilla.mozilla.org/enter_bug.cgi?product=Websites&component=affiliates.mozilla.org%20banners">file a bug</a></td>';
+          tableOutput += '<td class="no"><a href="https://bugzilla.mozilla.org/enter_bug.cgi?product=Websites&component=affiliates.mozilla.org%20banners&short_desc=[' + locale + '][' + knownCategories[j] +'] Lay out ' + knownCategories[j] +' Affiliates buttons for ' + locale + '">file a bug</a></td>';
         }
       }
       tableOutput += '</tr>';

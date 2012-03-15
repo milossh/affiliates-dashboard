@@ -68,6 +68,14 @@ td { vertical-align: top; }
    Author: Milos Dinic
    ========================================================================== */
 
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 table {
   border: 1px solid black;
 }
@@ -76,7 +84,7 @@ table td {
 }
 
 td.done {
-  background-color: green;
+  background-color: #79d033;
 }
 
 td.open {
@@ -84,7 +92,7 @@ td.open {
 }
 
 td.no {
-  background-color: red;
+  background-color: #e04c4c;
 }
 
 .locale a {
@@ -96,11 +104,11 @@ td.open a {
 }
 
 td.done a {
-  color: white;
+  color: #3b5d20;
 }
 
 td.no a {
-  color: black;
+  color: #f2bbbb;
 }
 
 .heading {

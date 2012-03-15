@@ -39,7 +39,7 @@ $(function() {
   var locales = [];
   var knownCategories = ['mobile', 'desktop', 'snippets', 'aurora', 'beta', 'XP', '3.6', 'plugin', 'thunderbird'];
 
-  tableOutput = '<table><tr class="heading"><td></td>';
+  tableOutput = '<table cellpadding="4"><tr class="heading"><td></td>';
   for(i = 0; i <= knownCategories.length - 1; i++) {
     tableOutput += '<td>' + knownCategories[i] + '</td>';
   }

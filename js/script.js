@@ -58,7 +58,8 @@ $(function() {
         cats = cats.join("`").toLowerCase().split("`"); */
 
         if (locales[locale].bugs[i].status == 'NEW' ||
-            locales[locale].bugs[i].status == 'ASSIGNED') {
+            locales[locale].bugs[i].status == 'ASSIGNED' ||
+            locales[locale].bugs[i].status == 'REOPENED') {
           console.log("open: " + locales[locale].bugs[i].categories);
           openCats.list = openCats.list.concat(locales[locale].bugs[i].categories);
           openCats = {  list: openCats.list.join("`").toLowerCase().split("`"),

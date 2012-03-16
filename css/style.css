@@ -75,26 +75,19 @@ a {
 a:hover {
   text-decoration: underline;
 }
-
-table {
-  border: 1px solid black;
+.table th {
+	text-transform:uppercase;
 }
-table td {
-  border: 1px solid black;
-}
-
+/*
 td.done {
   background-color: #79d033;
 }
-
 td.open {
   background-color: orange;
 }
-
 td.no {
   background-color: #e04c4c;
 }
-
 .locale a {
   color: blue;
 }
@@ -111,12 +104,7 @@ td.no a {
   color: #f2bbbb;
 }
 
-.heading {
-  border: 2px solid black;
-  font-weight: bold;
-  text-transform: uppercase;
-}
-
+*/
 
 /* =============================================================================
    Media Queries

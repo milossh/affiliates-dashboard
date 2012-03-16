@@ -39,11 +39,11 @@ $(function() {
   var locales = [];
   var knownCategories = ['mobile', 'desktop', 'snippets', 'aurora', 'beta', 'XP', '3.6', 'plugin', 'thunderbird'];
 
-  tableOutput = '<table cellpadding="4"><tr class="heading"><td></td>';
+  tableOutput = '<table class="table table-bordered table-striped table-condensed"><thead><tr><th></th>';
   for(i = 0; i <= knownCategories.length - 1; i++) {
-    tableOutput += '<td>' + knownCategories[i] + '</td>';
+    tableOutput += '<th>' + knownCategories[i] + '</th>';
   }
-  tableOutput += '</tr>';
+  tableOutput += '</tr></thead><tbody>';
   function render() {
     for (var locale in locales) {
       var ids = [];
@@ -79,19 +79,19 @@ $(function() {
       for(j = 0; j <= knownCategories.length - 1; j++) {
         /*console.log($.inArray(knownCategories[i], cats)); */
         if ($.inArray(knownCategories[j], openCats.list) != -1) {
-          tableOutput += '<td class="open"><a href="http://bugzilla.mozilla.org/show_bug.cgi?id=' + 
+          tableOutput += '<td class="open"><a class="btn btn-warning btn-mini" href="http://bugzilla.mozilla.org/show_bug.cgi?id=' + 
           openCats.bugid + '">' + openCats.bugid +'</td>';
         } else if($.inArray(knownCategories[j], doneCats.list) != -1) {
-          tableOutput += '<td class="done"><a href="http://bugzilla.mozilla.org/show_bug.cgi?id=' + 
+          tableOutput += '<td class="done"><a class="btn btn-success btn-mini" href="http://bugzilla.mozilla.org/show_bug.cgi?id=' + 
           doneCats.bugid + '">' + doneCats.bugid +'</td>';
         } else {
-          tableOutput += '<td class="no"><a href="https://bugzilla.mozilla.org/enter_bug.cgi?product=Websites&component=affiliates.mozilla.org%20banners&short_desc=[' + locale + '][' + knownCategories[j] +'] Lay out ' + knownCategories[j] +' Affiliates buttons for ' + locale + '">file a bug</a></td>';
+          tableOutput += '<td class="no"><a class="btn btn-danger btn-mini" href="https://bugzilla.mozilla.org/enter_bug.cgi?product=Websites&component=affiliates.mozilla.org%20banners&short_desc=[' + locale + '][' + knownCategories[j] +'] Lay out ' + knownCategories[j] +' Affiliates buttons for ' + locale + '">file a bug</a></td>';
         }
       }
       tableOutput += '</tr>';
       console.log("locale: " + locale + "; open: " + openCats.list + "; closed: " + doneCats.list);
     }
-    tableOutput += '</table>';
+    tableOutput += '</tbody></table>';
     $('.main-content').append(tableOutput);
   }
 

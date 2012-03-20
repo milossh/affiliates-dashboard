@@ -59,21 +59,19 @@ $(function() {
         if (locales[locale].bugs[i].status == 'NEW' ||
             locales[locale].bugs[i].status == 'ASSIGNED' ||
             locales[locale].bugs[i].status == 'REOPENED') {
-          locales[locale].bugs[i].categories.join("`").toLowerCase().split("`");
           for(k=0; k<locales[locale].bugs[i].categories.length; k++) {
             cats.push(
               { id: locales[locale].bugs[i].id,
-                category: locales[locale].bugs[i].categories[k],
+                category: locales[locale].bugs[i].categories[k].toLowerCase(),
                 status: 'open'
                }
             );
           }
         } else {
-          locales[locale].bugs[i].categories.join("`").toLowerCase().split("`");
           for(k=0; k<locales[locale].bugs[i].categories.length; k++) {
             cats.push(
               { id: locales[locale].bugs[i].id,
-                category: locales[locale].bugs[i].categories[k],
+                category: locales[locale].bugs[i].categories[k].toLowerCase(),
                 status: 'done'
                }
             );
@@ -89,16 +87,16 @@ $(function() {
         for (var m in cats) {
           if(knownCategories[l] == cats[m].category && cats[m].status == 'open') {
             tableOutput += '<td class="open"><a class="btn btn-warning btn-mini" href="http://bugzilla.mozilla.org/show_bug.cgi?id=' + 
-            cats[m].id + '">' + cats[m].category + ' ' + cats[m].id +'</td>';
+            cats[m].id + '">' + cats[m].id +'</td>';
             set = true;
           } else if(knownCategories[l] == cats[m].category && cats[m].status == 'done') {
             tableOutput += '<td class="done"><a class="btn btn-success btn-mini" href="http://bugzilla.mozilla.org/show_bug.cgi?id=' + 
-            cats[m].id + '">' + cats[m].category + ' ' + cats[m].id +'</td>';
+            cats[m].id + '">'+ cats[m].id +'</td>';
             set = true;
           }
         }
         if (!set) {
-          tableOutput += '<td class="no"><a class="btn btn-danger btn-mini" href="https://bugzilla.mozilla.org/enter_bug.cgi?product=Websites&component=affiliates.mozilla.org%20banners&short_desc=[' + locale + '][' + knownCategories[l] +'] Lay out ' + knownCategories[l] +' Affiliates buttons for ' + locale + '">' + knownCategories[l] + ' ' + 'file a bug</a></td>';
+          tableOutput += '<td class="no"><a class="btn btn-danger btn-mini" href="https://bugzilla.mozilla.org/enter_bug.cgi?product=Websites&component=affiliates.mozilla.org%20banners&short_desc=[' + locale + '][' + knownCategories[l] +'] Lay out ' + knownCategories[l] +' Affiliates buttons for ' + locale + '">file a bug</a></td>';
         }
       }
       tableOutput += '</tr>';

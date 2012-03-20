@@ -48,10 +48,9 @@ $(function() {
     for (var locale in locales) {
       var ids = [];
       var cats = [];
-      var doneCats = {bugid:'', list:[]}; /* banner categories we have resolved bugs for */
-      var openCats = {bugid:'', list:[]}; /* banner categories we have openeed bugs for */ 
+      var doneCats = []; /* banner categories we have resolved bugs for */
+      var openCats = []; /* banner categories we have openeed bugs for */ 
       for (var i = 0; i < locales[locale].bugs.length; i++) {
-        console.log(locales[locale].bugs[i].id);
         ids.push(locales[locale].bugs[i].id);
         /*
         cats = cats.concat(locales[locale].bugs[i].categories);
@@ -60,36 +59,48 @@ $(function() {
         if (locales[locale].bugs[i].status == 'NEW' ||
             locales[locale].bugs[i].status == 'ASSIGNED' ||
             locales[locale].bugs[i].status == 'REOPENED') {
-          console.log("open: " + locales[locale].bugs[i].categories);
-          openCats.list = openCats.list.concat(locales[locale].bugs[i].categories);
-          openCats = {  list: openCats.list.join("`").toLowerCase().split("`"),
-                        bugid: locales[locale].bugs[i].id
-                      };
+          locales[locale].bugs[i].categories.join("`").toLowerCase().split("`");
+          for(k=0; k<locales[locale].bugs[i].categories.length; k++) {
+            cats.push(
+              { id: locales[locale].bugs[i].id,
+                category: locales[locale].bugs[i].categories[k],
+                status: 'open'
+               }
+            );
+          }
         } else {
-          console.log("done: " + locales[locale].bugs[i].categories);
-          doneCats.list = doneCats.list.concat(locales[locale].bugs[i].categories);
-          doneCats = {  list: doneCats.list.join("`").toLowerCase().split("`"),
-                        bugid: locales[locale].bugs[i].id
-                      };
+          locales[locale].bugs[i].categories.join("`").toLowerCase().split("`");
+          for(k=0; k<locales[locale].bugs[i].categories.length; k++) {
+            cats.push(
+              { id: locales[locale].bugs[i].id,
+                category: locales[locale].bugs[i].categories[k],
+                status: 'done'
+               }
+            );
+          }
         }  
       }
       tableOutput += '<tr class="locale">' + 
         '<td><a href="https://bugzilla.mozilla.org/buglist.cgi?bug_id=' + 
         ids.join(',') + '">' + locale + '</a></td>';
-      for(j = 0; j <= knownCategories.length - 1; j++) {
-        /*console.log($.inArray(knownCategories[i], cats)); */
-        if ($.inArray(knownCategories[j], openCats.list) != -1) {
-          tableOutput += '<td class="open"><a class="btn btn-warning btn-mini" href="http://bugzilla.mozilla.org/show_bug.cgi?id=' + 
-          openCats.bugid + '">' + openCats.bugid +'</td>';
-        } else if($.inArray(knownCategories[j], doneCats.list) != -1) {
-          tableOutput += '<td class="done"><a class="btn btn-success btn-mini" href="http://bugzilla.mozilla.org/show_bug.cgi?id=' + 
-          doneCats.bugid + '">' + doneCats.bugid +'</td>';
-        } else {
-          tableOutput += '<td class="no"><a class="btn btn-danger btn-mini" href="https://bugzilla.mozilla.org/enter_bug.cgi?product=Websites&component=affiliates.mozilla.org%20banners&short_desc=[' + locale + '][' + knownCategories[j] +'] Lay out ' + knownCategories[j] +' Affiliates buttons for ' + locale + '">file a bug</a></td>';
+      
+      console.log(cats);
+
+      for (var l in knownCategories) {
+        for (var m in cats) {
+          console.log('checking knownCategories ' + knownCategories[l] + ' and cats[m] ' + cats[m].category);
+          if(knownCategories[l] == cats[m].category && cats[m].status == 'open') {
+            tableOutput += '<td class="open"><a class="btn btn-warning btn-mini" href="http://bugzilla.mozilla.org/show_bug.cgi?id=' + 
+            cats[m].id + '">' + cats[m].category + ' ' + cats[m].id +'</td>';
+          } else if(knownCategories[l] == cats[m].category && cats[m].status == 'done') {
+            tableOutput += '<td class="done"><a class="btn btn-success btn-mini" href="http://bugzilla.mozilla.org/show_bug.cgi?id=' + 
+            cats[m].id + '">' + cats[m].category + ' ' + cats[m].id +'</td>';
+          } else {
+            tableOutput += '<td class="no"><a class="btn btn-danger btn-mini" href="https://bugzilla.mozilla.org/enter_bug.cgi?product=Websites&component=affiliates.mozilla.org%20banners&short_desc=[' + locale + '][' + knownCategories[l] +'] Lay out ' + knownCategories[l] +' Affiliates buttons for ' + locale + '">' + cats[m].category + ' ' + 'file a bug</a></td>';
+          }
         }
       }
       tableOutput += '</tr>';
-      console.log("locale: " + locale + "; open: " + openCats.list + "; closed: " + doneCats.list);
     }
     tableOutput += '</tbody></table>';
     $('.main-content').append(tableOutput);

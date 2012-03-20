@@ -84,20 +84,21 @@ $(function() {
         '<td><a href="https://bugzilla.mozilla.org/buglist.cgi?bug_id=' + 
         ids.join(',') + '">' + locale + '</a></td>';
       
-      console.log(cats);
-
       for (var l in knownCategories) {
+        var set = false;
         for (var m in cats) {
-          console.log('checking knownCategories ' + knownCategories[l] + ' and cats[m] ' + cats[m].category);
           if(knownCategories[l] == cats[m].category && cats[m].status == 'open') {
             tableOutput += '<td class="open"><a class="btn btn-warning btn-mini" href="http://bugzilla.mozilla.org/show_bug.cgi?id=' + 
             cats[m].id + '">' + cats[m].category + ' ' + cats[m].id +'</td>';
+            set = true;
           } else if(knownCategories[l] == cats[m].category && cats[m].status == 'done') {
             tableOutput += '<td class="done"><a class="btn btn-success btn-mini" href="http://bugzilla.mozilla.org/show_bug.cgi?id=' + 
             cats[m].id + '">' + cats[m].category + ' ' + cats[m].id +'</td>';
-          } else {
-            tableOutput += '<td class="no"><a class="btn btn-danger btn-mini" href="https://bugzilla.mozilla.org/enter_bug.cgi?product=Websites&component=affiliates.mozilla.org%20banners&short_desc=[' + locale + '][' + knownCategories[l] +'] Lay out ' + knownCategories[l] +' Affiliates buttons for ' + locale + '">' + cats[m].category + ' ' + 'file a bug</a></td>';
+            set = true;
           }
+        }
+        if (!set) {
+          tableOutput += '<td class="no"><a class="btn btn-danger btn-mini" href="https://bugzilla.mozilla.org/enter_bug.cgi?product=Websites&component=affiliates.mozilla.org%20banners&short_desc=[' + locale + '][' + knownCategories[l] +'] Lay out ' + knownCategories[l] +' Affiliates buttons for ' + locale + '">' + knownCategories[l] + ' ' + 'file a bug</a></td>';
         }
       }
       tableOutput += '</tr>';

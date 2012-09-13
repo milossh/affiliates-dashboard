@@ -179,7 +179,7 @@ $(function() {
     url: 'https://api-dev.bugzilla.mozilla.org/1.1/bug', 
     dataType: 'json',
     data: {
-      product: 'Websites',
+      product: 'Firefox Affiliates',
       component: 'affiliates.mozilla.org banners'
     }, 
     success: function(data) {

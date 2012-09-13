@@ -52,10 +52,6 @@ $(function() {
       var openCats = []; /* banner categories we have openeed bugs for */ 
       for (var i = 0; i < locales[locale].bugs.length; i++) {
         ids.push(locales[locale].bugs[i].id);
-        /*
-        cats = cats.concat(locales[locale].bugs[i].categories);
-        cats = cats.join("`").toLowerCase().split("`"); */
-
         if (locales[locale].bugs[i].status == 'NEW' ||
             locales[locale].bugs[i].status == 'ASSIGNED' ||
             locales[locale].bugs[i].status == 'REOPENED') {
@@ -141,12 +137,10 @@ $(function() {
           params.push(tempParams.join(""));
       }
     });
+    console.log(params);
+    console.log(summary);
     meta.locale = params[0].toLowerCase();
     meta.categories = params.slice(1);
-    /* testing
-    console.log("params:" + params);
-    console.log("locale: " + meta.locale + "; categories: " + meta.categories + "; summary: " + meta.summary);
-    */
     return meta;
   }
 
@@ -167,7 +161,6 @@ $(function() {
                                             categories: meta.categories,
                                             status: bug.status
                                         });
-      /* console.log("just added to locale " + meta.locale + " a bug number " + bug.id); */
     } else {
       locales[meta.locale].bugs.push({ id:  bug.id,
                                             summary: meta.summary,
